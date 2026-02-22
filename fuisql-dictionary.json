@@ -1,0 +1,233 @@
+{
+  "_meta": {
+    "description": "FuiSQL schema dictionary — paste your tables here. Upload to GitHub and set fuisql.dictionaryUrl to the raw URL.",
+    "format": "TABLE_NAME → { description, columns: [ { name, dataType, nullable } ] }",
+    "nullable": "Y = nullable, N = NOT NULL"
+  },
+  "PER_ALL_PEOPLE_F": {
+    "description": "People master (effective-dated)",
+    "columns": [
+      { "name": "PERSON_ID",            "dataType": "NUMBER",         "nullable": "N" },
+      { "name": "PERSON_NUMBER",        "dataType": "VARCHAR2(30)",   "nullable": "N" },
+      { "name": "EFFECTIVE_START_DATE", "dataType": "DATE",           "nullable": "N" },
+      { "name": "EFFECTIVE_END_DATE",   "dataType": "DATE",           "nullable": "N" },
+      { "name": "LAST_NAME",            "dataType": "VARCHAR2(150)",  "nullable": "Y" },
+      { "name": "FIRST_NAME",           "dataType": "VARCHAR2(150)",  "nullable": "Y" },
+      { "name": "MIDDLE_NAMES",         "dataType": "VARCHAR2(60)",   "nullable": "Y" },
+      { "name": "DATE_OF_BIRTH",        "dataType": "DATE",           "nullable": "Y" },
+      { "name": "GENDER",               "dataType": "VARCHAR2(30)",   "nullable": "Y" },
+      { "name": "MARITAL_STATUS",       "dataType": "VARCHAR2(30)",   "nullable": "Y" },
+      { "name": "NATIONALITY",          "dataType": "VARCHAR2(30)",   "nullable": "Y" },
+      { "name": "NATIONAL_IDENTIFIER",  "dataType": "VARCHAR2(30)",   "nullable": "Y" },
+      { "name": "CREATED_BY",           "dataType": "VARCHAR2(100)",  "nullable": "N" },
+      { "name": "CREATION_DATE",        "dataType": "TIMESTAMP",      "nullable": "N" },
+      { "name": "LAST_UPDATED_BY",      "dataType": "VARCHAR2(100)",  "nullable": "N" },
+      { "name": "LAST_UPDATE_DATE",     "dataType": "TIMESTAMP",      "nullable": "N" }
+    ]
+  },
+  "PER_ALL_ASSIGNMENTS_F": {
+    "description": "Assignment details (effective-dated)",
+    "columns": [
+      { "name": "ASSIGNMENT_ID",          "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "PERSON_ID",              "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "EFFECTIVE_START_DATE",   "dataType": "DATE",          "nullable": "N" },
+      { "name": "EFFECTIVE_END_DATE",     "dataType": "DATE",          "nullable": "N" },
+      { "name": "ASSIGNMENT_NUMBER",      "dataType": "VARCHAR2(30)",  "nullable": "Y" },
+      { "name": "ASSIGNMENT_TYPE",        "dataType": "VARCHAR2(30)",  "nullable": "N" },
+      { "name": "ASSIGNMENT_STATUS_TYPE", "dataType": "VARCHAR2(30)",  "nullable": "Y" },
+      { "name": "BUSINESS_UNIT_ID",       "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "DEPARTMENT_ID",          "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "JOB_ID",                 "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "LOCATION_ID",            "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "MANAGER_ID",             "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "POSITION_ID",            "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "GRADE_ID",               "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "PAYROLL_ID",             "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "SALARY_BASIS_CODE",      "dataType": "VARCHAR2(30)",  "nullable": "Y" },
+      { "name": "FULL_PART_TIME",         "dataType": "VARCHAR2(30)",  "nullable": "Y" },
+      { "name": "REGULAR_TEMPORARY",      "dataType": "VARCHAR2(30)",  "nullable": "Y" }
+    ]
+  },
+  "PER_PERSON_NAMES_F": {
+    "description": "Person names (effective-dated, multiple name types)",
+    "columns": [
+      { "name": "PERSON_NAME_ID",       "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "PERSON_ID",            "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "NAME_TYPE",            "dataType": "VARCHAR2(30)",  "nullable": "N" },
+      { "name": "EFFECTIVE_START_DATE", "dataType": "DATE",          "nullable": "N" },
+      { "name": "EFFECTIVE_END_DATE",   "dataType": "DATE",          "nullable": "N" },
+      { "name": "FIRST_NAME",           "dataType": "VARCHAR2(150)", "nullable": "Y" },
+      { "name": "MIDDLE_NAMES",         "dataType": "VARCHAR2(60)",  "nullable": "Y" },
+      { "name": "LAST_NAME",            "dataType": "VARCHAR2(150)", "nullable": "Y" },
+      { "name": "FULL_NAME",            "dataType": "VARCHAR2(360)", "nullable": "Y" },
+      { "name": "DISPLAY_NAME",         "dataType": "VARCHAR2(360)", "nullable": "Y" },
+      { "name": "ORDER_NAME",           "dataType": "VARCHAR2(360)", "nullable": "Y" }
+    ]
+  },
+  "PER_JOBS": {
+    "description": "Job definitions",
+    "columns": [
+      { "name": "JOB_ID",          "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "JOB_CODE",        "dataType": "VARCHAR2(30)",  "nullable": "N" },
+      { "name": "NAME",            "dataType": "VARCHAR2(240)", "nullable": "N" },
+      { "name": "ACTIVE_STATUS",   "dataType": "VARCHAR2(30)",  "nullable": "N" },
+      { "name": "MANAGER_LEVEL",   "dataType": "VARCHAR2(30)",  "nullable": "Y" },
+      { "name": "FULL_PART_TIME",  "dataType": "VARCHAR2(30)",  "nullable": "Y" },
+      { "name": "REGULAR_TEMPORARY","dataType": "VARCHAR2(30)", "nullable": "Y" }
+    ]
+  },
+  "HR_ORGANIZATION_UNITS": {
+    "description": "Organization / department units",
+    "columns": [
+      { "name": "ORGANIZATION_ID",   "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "NAME",              "dataType": "VARCHAR2(240)", "nullable": "N" },
+      { "name": "TYPE",              "dataType": "VARCHAR2(30)",  "nullable": "Y" },
+      { "name": "ACTIVE_STATUS",     "dataType": "VARCHAR2(30)",  "nullable": "Y" },
+      { "name": "LOCATION_ID",       "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "DATE_FROM",         "dataType": "DATE",          "nullable": "N" },
+      { "name": "DATE_TO",           "dataType": "DATE",          "nullable": "Y" }
+    ]
+  },
+  "GL_LEDGERS": {
+    "description": "General Ledger ledger definitions",
+    "columns": [
+      { "name": "LEDGER_ID",              "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "NAME",                   "dataType": "VARCHAR2(30)",  "nullable": "N" },
+      { "name": "SHORT_NAME",             "dataType": "VARCHAR2(20)",  "nullable": "N" },
+      { "name": "DESCRIPTION",            "dataType": "VARCHAR2(240)", "nullable": "Y" },
+      { "name": "LEDGER_CATEGORY_CODE",   "dataType": "VARCHAR2(30)",  "nullable": "N" },
+      { "name": "CURRENCY_CODE",          "dataType": "VARCHAR2(15)",  "nullable": "N" },
+      { "name": "PERIOD_SET_NAME",        "dataType": "VARCHAR2(15)",  "nullable": "N" },
+      { "name": "CHART_OF_ACCOUNTS_ID",   "dataType": "NUMBER",        "nullable": "N" }
+    ]
+  },
+  "GL_CODE_COMBINATIONS": {
+    "description": "Chart of accounts code combinations (accounting flexfield)",
+    "columns": [
+      { "name": "CODE_COMBINATION_ID",  "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "CHART_OF_ACCOUNTS_ID", "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "ENABLED_FLAG",         "dataType": "VARCHAR2(1)",   "nullable": "N" },
+      { "name": "SUMMARY_FLAG",         "dataType": "VARCHAR2(1)",   "nullable": "N" },
+      { "name": "SEGMENT1",             "dataType": "VARCHAR2(25)",  "nullable": "Y" },
+      { "name": "SEGMENT2",             "dataType": "VARCHAR2(25)",  "nullable": "Y" },
+      { "name": "SEGMENT3",             "dataType": "VARCHAR2(25)",  "nullable": "Y" },
+      { "name": "SEGMENT4",             "dataType": "VARCHAR2(25)",  "nullable": "Y" },
+      { "name": "SEGMENT5",             "dataType": "VARCHAR2(25)",  "nullable": "Y" },
+      { "name": "SEGMENT6",             "dataType": "VARCHAR2(25)",  "nullable": "Y" },
+      { "name": "START_DATE_ACTIVE",    "dataType": "DATE",          "nullable": "Y" },
+      { "name": "END_DATE_ACTIVE",      "dataType": "DATE",          "nullable": "Y" }
+    ]
+  },
+  "GL_JE_HEADERS": {
+    "description": "Journal entry headers",
+    "columns": [
+      { "name": "JE_HEADER_ID",     "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "LEDGER_ID",        "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "NAME",             "dataType": "VARCHAR2(100)", "nullable": "N" },
+      { "name": "JE_CATEGORY",      "dataType": "VARCHAR2(25)",  "nullable": "N" },
+      { "name": "JE_SOURCE",        "dataType": "VARCHAR2(25)",  "nullable": "N" },
+      { "name": "PERIOD_NAME",      "dataType": "VARCHAR2(15)",  "nullable": "N" },
+      { "name": "STATUS",           "dataType": "VARCHAR2(1)",   "nullable": "N" },
+      { "name": "CURRENCY_CODE",    "dataType": "VARCHAR2(15)",  "nullable": "N" },
+      { "name": "DATE_CREATED",     "dataType": "DATE",          "nullable": "N" },
+      { "name": "POSTED_DATE",      "dataType": "DATE",          "nullable": "Y" },
+      { "name": "DESCRIPTION",      "dataType": "VARCHAR2(240)", "nullable": "Y" }
+    ]
+  },
+  "GL_JE_LINES": {
+    "description": "Journal entry lines",
+    "columns": [
+      { "name": "JE_HEADER_ID",          "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "JE_LINE_NUM",           "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "LEDGER_ID",             "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "CODE_COMBINATION_ID",   "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "PERIOD_NAME",           "dataType": "VARCHAR2(15)",  "nullable": "N" },
+      { "name": "EFFECTIVE_DATE",        "dataType": "DATE",          "nullable": "N" },
+      { "name": "ENTERED_DR",            "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "ENTERED_CR",            "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "ACCOUNTED_DR",          "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "ACCOUNTED_CR",          "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "DESCRIPTION",           "dataType": "VARCHAR2(240)", "nullable": "Y" },
+      { "name": "REFERENCE1",            "dataType": "VARCHAR2(240)", "nullable": "Y" },
+      { "name": "REFERENCE2",            "dataType": "VARCHAR2(240)", "nullable": "Y" }
+    ]
+  },
+  "AP_INVOICES_ALL": {
+    "description": "Accounts Payable invoices (all operating units)",
+    "columns": [
+      { "name": "INVOICE_ID",           "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "INVOICE_NUM",          "dataType": "VARCHAR2(50)",  "nullable": "N" },
+      { "name": "INVOICE_TYPE_LOOKUP_CODE","dataType": "VARCHAR2(25)","nullable": "N" },
+      { "name": "INVOICE_DATE",         "dataType": "DATE",          "nullable": "Y" },
+      { "name": "VENDOR_ID",            "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "VENDOR_SITE_ID",       "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "INVOICE_AMOUNT",       "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "PAYMENT_STATUS_FLAG",  "dataType": "VARCHAR2(1)",   "nullable": "Y" },
+      { "name": "APPROVED_AMOUNT",      "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "CURRENCY_CODE",        "dataType": "VARCHAR2(15)",  "nullable": "N" },
+      { "name": "DESCRIPTION",          "dataType": "VARCHAR2(240)", "nullable": "Y" },
+      { "name": "SOURCE",               "dataType": "VARCHAR2(80)",  "nullable": "Y" },
+      { "name": "ORG_ID",               "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "CREATION_DATE",        "dataType": "DATE",          "nullable": "N" }
+    ]
+  },
+  "AP_INVOICE_LINES_ALL": {
+    "description": "AP invoice lines",
+    "columns": [
+      { "name": "INVOICE_ID",            "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "LINE_NUMBER",           "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "LINE_TYPE_LOOKUP_CODE", "dataType": "VARCHAR2(25)",  "nullable": "N" },
+      { "name": "AMOUNT",                "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "QUANTITY_INVOICED",     "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "UNIT_PRICE",            "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "DESCRIPTION",           "dataType": "VARCHAR2(240)", "nullable": "Y" },
+      { "name": "PO_HEADER_ID",          "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "PO_LINE_ID",            "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "DIST_CODE_COMBINATION_ID","dataType": "NUMBER",      "nullable": "Y" },
+      { "name": "ORG_ID",                "dataType": "NUMBER",        "nullable": "Y" }
+    ]
+  },
+  "PO_HEADERS_ALL": {
+    "description": "Purchase order headers (all operating units)",
+    "columns": [
+      { "name": "PO_HEADER_ID",      "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "SEGMENT1",          "dataType": "VARCHAR2(20)",  "nullable": "N" },
+      { "name": "TYPE_LOOKUP_CODE",  "dataType": "VARCHAR2(25)",  "nullable": "N" },
+      { "name": "STATUS",            "dataType": "VARCHAR2(25)",  "nullable": "Y" },
+      { "name": "VENDOR_ID",         "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "VENDOR_SITE_ID",    "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "CURRENCY_CODE",     "dataType": "VARCHAR2(15)",  "nullable": "Y" },
+      { "name": "CREATION_DATE",     "dataType": "DATE",          "nullable": "N" },
+      { "name": "APPROVED_DATE",     "dataType": "DATE",          "nullable": "Y" },
+      { "name": "ORG_ID",            "dataType": "NUMBER",        "nullable": "Y" }
+    ]
+  },
+  "PO_LINES_ALL": {
+    "description": "Purchase order lines",
+    "columns": [
+      { "name": "PO_LINE_ID",        "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "PO_HEADER_ID",      "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "LINE_NUM",          "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "LINE_TYPE_ID",      "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "ITEM_ID",           "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "ITEM_DESCRIPTION",  "dataType": "VARCHAR2(240)", "nullable": "Y" },
+      { "name": "UNIT_MEAS_LOOKUP_CODE","dataType": "VARCHAR2(25)","nullable": "Y" },
+      { "name": "QUANTITY",          "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "UNIT_PRICE",        "dataType": "NUMBER",        "nullable": "Y" },
+      { "name": "AMOUNT",            "dataType": "NUMBER",        "nullable": "Y" }
+    ]
+  },
+  "FND_USER": {
+    "description": "Application users",
+    "columns": [
+      { "name": "USER_ID",           "dataType": "NUMBER",        "nullable": "N" },
+      { "name": "USER_NAME",         "dataType": "VARCHAR2(100)", "nullable": "N" },
+      { "name": "DESCRIPTION",       "dataType": "VARCHAR2(240)", "nullable": "Y" },
+      { "name": "EMAIL_ADDRESS",     "dataType": "VARCHAR2(240)", "nullable": "Y" },
+      { "name": "START_DATE",        "dataType": "DATE",          "nullable": "N" },
+      { "name": "END_DATE",          "dataType": "DATE",          "nullable": "Y" },
+      { "name": "LAST_LOGON_DATE",   "dataType": "DATE",          "nullable": "Y" },
+      { "name": "PERSON_PARTY_ID",   "dataType": "NUMBER",        "nullable": "Y" }
+    ]
+  }
+}
