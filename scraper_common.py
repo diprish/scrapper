@@ -4,8 +4,8 @@ import json
 import time
 from urllib.parse import urljoin
 
-BASE_URL = "https://docs.oracle.com/en/cloud/saas/applications-common/26a/oedma/#3-Middleware-Extensions-for-Applications-4"
-TOC_URL = "https://docs.oracle.com/en/cloud/saas/applications-common/26a/oedma/toc.htm#3-Middleware-Extensions-for-Applications-4"
+BASE_URL = "https://docs.oracle.com/en/cloud/saas/applications-common/26a/oedma/"
+TOC_URL = "https://docs.oracle.com/en/cloud/saas/applications-common/26a/oedma/toc.htm"
 
 def get_soup(url):
     try:
@@ -34,8 +34,14 @@ def scrape_oracle_docs():
     # Extract links from TOC
     for a in soup.find_all('a', href=True):
         href = a['href']
+        text = a.get_text(strip=True).upper()
+        
         # Skip common non-content links
         if 'index.html' in href or 'get-help' in href or 'toc.htm' in href:
+            continue
+            
+        # Filter for FND_ tables
+        if not text.startswith("FND_"):
             continue
             
         full_url = urljoin(base_url_dynamic, href)
@@ -47,7 +53,7 @@ def scrape_oracle_docs():
                 continue
             links_to_visit.append(full_url)
 
-    print(f"Found {len(links_to_visit)} potential pages to scrape.")
+    print(f"Found {len(links_to_visit)} FND_ tables to scrape.")
     
     # No limit for full scrape
     # links_to_visit = links_to_visit[:10] 
@@ -94,6 +100,14 @@ def scrape_oracle_docs():
                 target_table = table
                 break
         
+        # Fallback for Views (single column "Name" table)
+        if not target_table:
+            for table in tables:
+                headers = [th.get_text(strip=True).lower() for th in table.find_all('th')]
+                if len(headers) == 1 and headers[0] == 'name':
+                    target_table = table
+                    break
+
         if target_table:
             # Map headers to indices
             headers = [th.get_text(strip=True).lower() for th in target_table.find_all('th')]
@@ -108,6 +122,7 @@ def scrape_oracle_docs():
                 elif 'null' in h: null_idx = i
             
             if name_idx != -1 and type_idx != -1:
+                # Standard Table Logic
                 rows = target_table.find_all('tr')
                 for row in rows:
                     # Skip header row
@@ -133,6 +148,22 @@ def scrape_oracle_docs():
                                 "dataType": data_type,
                                 "nullable": nullable
                             })
+            elif name_idx != -1 and len(headers) == 1:
+                # View Logic (Single cell with newlines)
+                rows = target_table.find_all('tr')
+                if len(rows) >= 2:
+                    # Get the content of the first data row (index 1)
+                    cols = rows[1].find_all('td')
+                    if cols:
+                        content = cols[0].get_text()
+                        lines = [l.strip() for l in content.split('\n') if l.strip()]
+                        
+                        for line in lines:
+                            columns.append({
+                                "name": line,
+                                "dataType": "View Column",
+                                "nullable": "Unknown"
+                            })
 
         if columns:
             data[table_name] = {
@@ -143,7 +174,7 @@ def scrape_oracle_docs():
             
             # Save incrementally to ensure data is stored after each table is read
             try:
-                with open('oracle_data_common.json', 'w') as f:
+                with open('oracle_data.json', 'w') as f:
                     json.dump(data, f, indent=4)
             except Exception as e:
                 print(f"Error saving data: {e}")

@@ -19,6 +19,11 @@ def get_soup(url):
 def scrape_oracle_docs():
     print(f"Starting scrape of {TOC_URL}")
     
+    # Derive BASE_URL from TOC_URL if not set or to ensure consistency
+    # This assumes TOC is at the root of the documentation folder we want to scrape
+    base_url_dynamic = TOC_URL.rsplit('/', 1)[0] + '/'
+    print(f"Using Base URL: {base_url_dynamic}")
+    
     soup = get_soup(TOC_URL)
     if not soup:
         return
@@ -27,18 +32,24 @@ def scrape_oracle_docs():
     links_to_visit = []
     
     # Extract links from TOC
-    # We filter out non-table links (like index.html, get-help, etc.)
     for a in soup.find_all('a', href=True):
         href = a['href']
+        text = a.get_text(strip=True).upper()
+        
         # Skip common non-content links
         if 'index.html' in href or 'get-help' in href or 'toc.htm' in href:
             continue
             
-        full_url = urljoin(BASE_URL, href)
-        if full_url not in links_to_visit and full_url.startswith(BASE_URL):
+        full_url = urljoin(base_url_dynamic, href)
+        
+        # Ensure we stay within the documentation set
+        if full_url not in links_to_visit and full_url.startswith(base_url_dynamic):
+            # Exclude anchor-only links to the base page
+            if full_url == base_url_dynamic or full_url.startswith(base_url_dynamic + "#"):
+                continue
             links_to_visit.append(full_url)
 
-    print(f"Found {len(links_to_visit)} potential pages to scrape.")
+    print(f"Found {len(links_to_visit)} tables to scrape.")
     
     # No limit for full scrape
     # links_to_visit = links_to_visit[:10] 
@@ -85,6 +96,14 @@ def scrape_oracle_docs():
                 target_table = table
                 break
         
+        # Fallback for Views (single column "Name" table)
+        if not target_table:
+            for table in tables:
+                headers = [th.get_text(strip=True).lower() for th in table.find_all('th')]
+                if len(headers) == 1 and headers[0] == 'name':
+                    target_table = table
+                    break
+
         if target_table:
             # Map headers to indices
             headers = [th.get_text(strip=True).lower() for th in target_table.find_all('th')]
@@ -99,6 +118,7 @@ def scrape_oracle_docs():
                 elif 'null' in h: null_idx = i
             
             if name_idx != -1 and type_idx != -1:
+                # Standard Table Logic
                 rows = target_table.find_all('tr')
                 for row in rows:
                     # Skip header row
@@ -123,6 +143,22 @@ def scrape_oracle_docs():
                                 "name": col_name,
                                 "dataType": data_type,
                                 "nullable": nullable
+                            })
+            elif name_idx != -1 and len(headers) == 1:
+                # View Logic (Single cell with newlines)
+                rows = target_table.find_all('tr')
+                if len(rows) >= 2:
+                    # Get the content of the first data row (index 1)
+                    cols = rows[1].find_all('td')
+                    if cols:
+                        content = cols[0].get_text()
+                        lines = [l.strip() for l in content.split('\n') if l.strip()]
+                        
+                        for line in lines:
+                            columns.append({
+                                "name": line,
+                                "dataType": "View Column",
+                                "nullable": "Unknown"
                             })
 
         if columns:
